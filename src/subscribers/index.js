@@ -1,3 +1,3 @@
-import OrderSubscriber from "order-subscriber";
+import OrderSubscriber from "./order-subscriber";
 
 export default { OrderSubscriber };

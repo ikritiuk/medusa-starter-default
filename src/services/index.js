@@ -1,3 +1,3 @@
-import CustomEmailService from "custom-email";
+import CustomEmailService from "./custom-email";
 
 export default { CustomEmailService };
