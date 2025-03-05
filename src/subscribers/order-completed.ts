@@ -1,7 +1,7 @@
 import { Modules } from "@medusajs/framework/utils"
 import { SubscriberArgs, SubscriberConfig } from "@medusajs/framework"
 import { INotificationModuleService } from "@medusajs/framework/types"
-import { OrderService } from "@medusajs/medusa"
+import { OrderService } from "@medusajs/medusa/dist/services"
 
 export default async function orderPlacedHandler({
                                                      event: { data },
