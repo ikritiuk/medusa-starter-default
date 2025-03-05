@@ -61,18 +61,23 @@ module.exports = defineConfig({
             },
         },
         {
-            resolve: "medusa-plugin-smtp",
+            resolve: "@medusajs/medusa/notification",
             options: {
-                host: process.env.SMTP_HOST,
-                port: 587,
-                auth: {
-                    user: process.env.SMTP_USER,
-                    pass: process.env.SMTP_PASS,
-                },
-                from: process.env.SMTP_FROM,
-                path: "data/emails",
+                providers: [
+                    // ...
+                    {
+                        resolve: "@medusajs/medusa/notification-sendgrid",
+                        id: "sendgrid",
+                        options: {
+                            channels: ["email"],
+                            api_key: process.env.SENDGRID_API_KEY,
+                            from: process.env.SENDGRID_FROM,
+                        },
+                    },
+                ],
             },
         },
+
     ],
 
 })
