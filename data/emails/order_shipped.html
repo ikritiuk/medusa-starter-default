@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Ваш заказ отправлен!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            background: #ffffff;
+            padding: 20px;
+            margin: 0 auto;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #27ae60;
+        }
+        .button {
+            display: inline-block;
+            background: #27ae60;
+            color: #ffffff;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .footer {
+            font-size: 12px;
+            color: #777;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📦 Ваш заказ отправлен!</h1>
+    <p>Здравствуйте, {{customer.first_name}}!</p>
+    <p>Мы рады сообщить, что ваш заказ <strong>#{{order.id}}</strong> был отправлен и уже в пути.</p>
+    <p>Вы можете отслеживать его по номеру отслеживания: <strong>{{order.tracking_number}}</strong></p>
+    <p>Курьерская служба: <strong>{{order.shipping_provider}}</strong></p>
+
+    <a href="{{order.tracking_url}}" class="button">Отследить заказ</a>
+
+    <p>Спасибо, что выбрали <strong>{{store_name}}</strong>!</p>
+
+    <div class="footer">
+        <p>Если у вас есть вопросы, свяжитесь с нашей службой поддержки.</p>
+        <p>&copy; {{year}} {{store_name}}. Все права защищены.</p>
+    </div>
+</div>
+</body>
+</html>

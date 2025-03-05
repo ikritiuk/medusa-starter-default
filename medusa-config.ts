@@ -60,6 +60,19 @@ module.exports = defineConfig({
                 },
             },
         },
+        {
+            resolve: "medusa-plugin-smtp",
+            options: {
+                host: process.env.SMTP_HOST,
+                port: 587,
+                auth: {
+                    user: process.env.SMTP_USER,
+                    pass: process.env.SMTP_PASS,
+                },
+                from: process.env.SMTP_FROM,
+                path: "data/emails",
+            },
+        },
     ],
 
 })
