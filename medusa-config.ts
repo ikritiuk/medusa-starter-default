@@ -1,6 +1,6 @@
-import {loadEnv, defineConfig} from '@medusajs/framework/utils'
+import { loadEnv, defineConfig } from "@medusajs/framework/utils";
 
-loadEnv(process.env.NODE_ENV || 'development', process.cwd())
+loadEnv(process.env.NODE_ENV || "development", process.cwd());
 
 module.exports = defineConfig({
     projectConfig: {
@@ -20,6 +20,11 @@ module.exports = defineConfig({
         backendUrl: process.env.MEDUSA_BACKEND_URL,
     },
     modules: [
+        {
+            resolve: "@medusajs/order",
+            options: {},
+        },
+
         {
             resolve: "@medusajs/medusa/notification",
             options: {
@@ -80,7 +85,5 @@ module.exports = defineConfig({
                 },
             },
         },
-
     ],
-
-})
+});
