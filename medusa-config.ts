@@ -15,6 +15,11 @@ module.exports = defineConfig({
             cookieSecret: process.env.COOKIE_SECRET || "supersecret",
         }
     },
+    plugins: [
+        // Убедитесь, что Medusa загружает кастомные сервисы и подписчики
+        `./src/services`,
+        `./src/subscribers`,
+    ],
     admin: {
         disable: process.env.DISABLE_MEDUSA_ADMIN === "true",
         backendUrl: process.env.MEDUSA_BACKEND_URL,
