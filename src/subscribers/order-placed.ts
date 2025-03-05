@@ -1,36 +1,30 @@
-import { Modules } from "@medusajs/framework/utils";
-import { SubscriberArgs, SubscriberConfig } from "@medusajs/framework";
-import { INotificationModuleService, IOrderModuleService } from "@medusajs/framework/types";
+import {
+    type SubscriberConfig,
+    type SubscriberArgs
+} from "@medusajs/medusa"
+import { Modules } from "@medusajs/framework/utils"
+import { INotificationModuleService } from "@medusajs/framework/types"
 
 export default async function orderPlacedHandler({
-                                                     event: { data },
+                                                     event,
                                                      container,
                                                  }: SubscriberArgs<{ id: string }>) {
     const notificationModuleService: INotificationModuleService =
-        container.resolve(Modules.NOTIFICATION);
+        container.resolve(Modules.NOTIFICATION)
+    const orderModuleService = container.resolve(Modules.ORDER)
 
-    // ✅ Use the correct module resolution for Order Service
-    const orderService = container.resolve<IOrderModuleService>(Modules.ORDER);
+    const order = await orderModuleService.retrieve(event.data.id)
 
-    if (!orderService) {
-        console.error("Order Service could not be resolved");
-        return;
-    }
-
-    try {
-        const order = await orderService.retrieve(data.id);
-
-        await notificationModuleService.createNotifications({
-            to: order.email,
-            channel: "email",
-            template: "order-placed",
-            data: { order },
-        });
-    } catch (error) {
-        console.error("Error processing order.placed event:", error);
-    }
+    await notificationModuleService.createNotifications({
+        to: order.email,
+        channel: "email",
+        template: "order-placed",
+        data: {
+            order: order,
+        },
+    })
 }
 
 export const config: SubscriberConfig = {
     event: "order.placed",
-};
+}
