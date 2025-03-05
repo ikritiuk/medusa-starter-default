@@ -21,23 +21,15 @@ module.exports = defineConfig({
     },
     modules: [
         {
-            resolve: ".src/modules/smtp",
+            resolve: "./src/modules/smtp",
             options: {
-                providers: [
-                    {
-                        resolve: ".src/modules/smtp",
-                        id: "smtp",
-                        options: {
-                            channels: ["email"],
-                            host: process.env.SMTP_HOST,
-                            port: process.env.SMTP_PORT,
-                            auth: {
-                                user: process.env.SMTP_USER,
-                                pass: process.env.SMTP_PASS,
-                            },
-                        },
-                    },
-                ],
+                channels: ["email"],
+                host: process.env.SMTP_HOST,
+                port: Number(process.env.SMTP_PORT),
+                auth: {
+                    user: process.env.SMTP_USER,
+                    pass: process.env.SMTP_PASS,
+                },
             },
         },
         {
