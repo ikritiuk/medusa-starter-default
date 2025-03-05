@@ -1,11 +1,11 @@
 import { Modules } from "@medusajs/framework/utils"
-import { SubscriberArgs, SubscriberConfig } from "@medusajs/medusa"
+import { SubscriberArgs, SubscriberConfig } from "@medusajs/framework"
 import { INotificationModuleService } from "@medusajs/framework/types"
 
-export default async function orderCompletedHandler({
-                                                        event: { data },
-                                                        container,
-                                                    }: SubscriberArgs<{ id: string }>) {
+export default async function orderPlacedHandler({
+                                                     event: { data },
+                                                     container,
+                                                 }: SubscriberArgs<{ id: string }>) {
     const notificationModuleService: INotificationModuleService =
         container.resolve(Modules.NOTIFICATION)
     const orderService = container.resolve("orderService")
@@ -15,7 +15,7 @@ export default async function orderCompletedHandler({
     await notificationModuleService.createNotifications({
         to: order.email,
         channel: "email",
-        template: "order-completed",
+        template: "order-placed",
         data: {
             order: order,
         },
@@ -23,5 +23,5 @@ export default async function orderCompletedHandler({
 }
 
 export const config: SubscriberConfig = {
-    event: "order.completed",
+    event: "order.placed",
 }
