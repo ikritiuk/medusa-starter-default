@@ -1,0 +1,12 @@
+{
+  "name": "subscribers",
+  "version": "1.0.0",
+  "description": "Subscribers handle events emitted in the Medusa application.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
