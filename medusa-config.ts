@@ -25,7 +25,7 @@ module.exports = defineConfig({
             options: {
                 providers: [
                     {
-                        resolve: path.resolve(__dirname, "src/modules/smtp"),
+                        resolve: ".src/modules/smtp",
                         id: "smtp",
                         options: {
                             channels: ["email"],
