@@ -11,9 +11,9 @@ export default async function orderPlacedHandler({
                                                  }: SubscriberArgs<{ id: string }>) {
     const notificationModuleService: INotificationModuleService =
         container.resolve(Modules.NOTIFICATION)
-    const productModuleService = container.resolve(Modules.PRODUCT)
+    const orderModuleService = container.resolve(Modules.ORDER)
 
-    const order = await productModuleService.retrieveOrder(event.data.id)
+    const order = await orderModuleService.retrieve(event.data.id)
 
     await notificationModuleService.createNotifications({
         to: order.email,
