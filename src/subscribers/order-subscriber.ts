@@ -1,21 +1,27 @@
-import { Subscriber, EventBusService, Logger } from "@medusajs/medusa";
-import EmailService from "../services/email-service"; // Use ResendEmailService if needed
+import { Lifetime } from "@medusajs/types";
+import { MedusaContainer, MedusaModule, MedusaModuleService } from "@medusajs/modules-sdk";
+import EmailService from "../services/email-service";
 
-@Subscriber()
-class OrderSubscriber {
+@MedusaModule({
+    imports: ["eventBusService", "emailService"],
+    lifetime: Lifetime.SCOPED,
+})
+class OrderSubscriber extends MedusaModuleService {
     constructor(
-        private readonly eventBusService: EventBusService,
-        private readonly emailService: EmailService // Replace with ResendEmailService if using Resend
+        private readonly container: MedusaContainer
     ) {
-        this.eventBusService.subscribe("order.placed", this.handleOrderPlaced);
+        super();
+        const eventBusService = this.container.resolve("eventBusService");
+        eventBusService.subscribe("order.placed", this.handleOrderPlaced.bind(this));
     }
 
     async handleOrderPlaced(order: any): Promise<void> {
         try {
-            Logger.info(`Sending order confirmation email for order ${order.id}`);
-            await this.emailService.sendOrderConfirmation(order);
+            console.info(`Sending order confirmation email for order ${order.id}`);
+            const emailService = this.container.resolve<EmailService>("emailService");
+            await emailService.sendOrderConfirmation(order);
         } catch (error) {
-            Logger.error(`Failed to send email: ${error.message}`);
+            console.error(`Failed to send email: ${error.message}`);
         }
     }
 }

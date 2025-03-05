@@ -1,8 +1,9 @@
 import nodemailer from "nodemailer";
-import { Order } from "@medusajs/medusa";
-import { Injectable } from "@medusajs/utils";
+import { OrderDTO } from "@medusajs/types";
+import { Lifetime } from "@medusajs/types";
+import { MedusaContainer, MedusaService } from "@medusajs/modules-sdk";
 
-@Injectable()
+@MedusaService({ scope: "emailService", lifetime: Lifetime.SCOPED })
 class EmailService {
     private transporter: nodemailer.Transporter;
 
@@ -10,7 +11,7 @@ class EmailService {
         this.transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,
             port: Number(process.env.SMTP_PORT),
-            secure: process.env.SMTP_SECURE === "true", // true for 465, false for others
+            secure: process.env.SMTP_SECURE === "true",
             auth: {
                 user: process.env.SMTP_USER,
                 pass: process.env.SMTP_PASS,
@@ -18,7 +19,7 @@ class EmailService {
         });
     }
 
-    async sendOrderConfirmation(order: Order): Promise<void> {
+    async sendOrderConfirmation(order: OrderDTO): Promise<void> {
         const mailOptions = {
             from: process.env.SMTP_FROM,
             to: order.email,

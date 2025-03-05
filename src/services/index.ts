@@ -1,5 +1,5 @@
-import EmailService from "./email-service"; // Use ResendEmailService if needed
+import EmailService from "./email-service";
 
 export default (container) => {
-    container.register("emailService", (c) => new EmailService(c));
+    container.register("emailService", () => new EmailService());
 };
