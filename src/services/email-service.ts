@@ -1,9 +1,7 @@
 import nodemailer from "nodemailer";
 import { OrderDTO } from "@medusajs/types";
-import { Lifetime } from "@medusajs/types";
-import { MedusaContainer, MedusaService } from "@medusajs/modules-sdk";
+import { InjectManager } from "@medusajs/utils";
 
-@MedusaService({ scope: "emailService", lifetime: Lifetime.SCOPED })
 class EmailService {
     private transporter: nodemailer.Transporter;
 
