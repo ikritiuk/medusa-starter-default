@@ -7,21 +7,20 @@ class OrderSubscriber {
     }
 
     async handleOrderCompleted(data) {
-        try {
-            const { email, display_id } = data;
+        console.log("EVENT TRIGGERED: Order completed!", data);
 
-            console.log(`Отправка email для завершенного заказа: ${display_id}`);
+        const { email, display_id } = data;
 
-            await this.customEmailService.sendMail(
-                email,
-                `Ваш заказ #${display_id} выполнен 🎉`,
-                `Здравствуйте! Ваш заказ #${display_id} успешно выполнен. Спасибо за покупку!`,
-                `<h1>Ваш заказ #${display_id} выполнен 🎉</h1><p>Спасибо, что выбрали нас!</p>`
-            );
-        } catch (error) {
-            console.error("Ошибка отправки email:", error);
-        }
+        console.log(`📩 Попытка отправить email заказчику: ${email}`);
+
+        await this.customEmailService.sendMail(
+            email,
+            `Ваш заказ #${display_id} выполнен 🎉`,
+            `Здравствуйте! Ваш заказ #${display_id} успешно выполнен. Спасибо за покупку!`,
+            `<h1>Ваш заказ #${display_id} выполнен 🎉</h1><p>Спасибо, что выбрали нас!</p>`
+        );
     }
+
 }
 
 export default OrderSubscriber;
