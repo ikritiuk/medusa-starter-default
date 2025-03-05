@@ -21,7 +21,7 @@ module.exports = defineConfig({
     },
     modules: [
         {
-            resolve: "@medusajs/medusa/notification",
+            resolve: ".src/modules/smtp",
             options: {
                 providers: [
                     {
