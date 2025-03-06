@@ -1,8 +1,7 @@
 import { Modules } from "@medusajs/framework/utils"
 import { SubscriberArgs, SubscriberConfig } from "@medusajs/framework"
 import { INotificationModuleService, IOrderModuleService } from "@medusajs/framework/types"
-import { EmailTemplates } from "../modules/email-notifications/templates";
-
+import { EmailTemplates } from "../modules/email-notifications/templates"; // Make sure this exists
 
 export default async function orderPlacedHandler({
                                                      event: { data },
@@ -18,11 +17,16 @@ export default async function orderPlacedHandler({
         relations: ["items", "summary", "shipping_address"],
     });
 
+    if (!order || !order.email) {
+        console.error(`Order or email not found for order ID: ${data.id}`)
+        return
+    }
+
     // Send notification
     await notificationModuleService.createNotifications({
-        to: order.email,
+        to: order.email, // Now guaranteed to be a string
         channel: "email",
-        template: "order-placed",
+        template: EmailTemplates.ORDER_PLACED, // Ensure EmailTemplates is correct
         data: {
             order: order,
         },
