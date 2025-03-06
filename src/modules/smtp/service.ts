@@ -34,8 +34,7 @@ class SMTPNotificationProviderService extends AbstractNotificationProviderServic
             console.log(`📤 [Sending Email] Preparing to send email to: ${to}`)
 
             // Fix: Ensure email template is correctly extracted
-            const templateName = emailData?.template || "unknown-template"
-            console.log(`📨 [Email Template] ${templateName}`)
+            console.log(`📨 [Email Template] ${template}`)
 
             const emailHtml = this.getTemplate(emailData, template)
 
@@ -58,6 +57,7 @@ class SMTPNotificationProviderService extends AbstractNotificationProviderServic
 
     getTemplate(data, template) {
         console.log(`🖼️ [Generating Template] Template Requested: ${template}`)
+        console.log(`🖼️ Data: ${data}`)
 
         switch (template) {
             case "order-placed":
@@ -71,7 +71,7 @@ class SMTPNotificationProviderService extends AbstractNotificationProviderServic
                 `
             default:
                 console.warn(`⚠️ [Warning] No template found for ${template}`)
-                return `<p>No template found for ${data.template}</p>`
+                return `<p>No template found for ${template}</p>`
         }
     }
 }
