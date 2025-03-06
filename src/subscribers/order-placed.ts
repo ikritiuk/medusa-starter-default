@@ -12,12 +12,19 @@ export default async function orderPlacedHandler({
     // Retrieve order module service properly
     const orderModuleService: IOrderModuleService = container.resolve(Modules.ORDER)
 
-    // Fetch order details
-    const order = await orderModuleService.retrieve(data.id)
+    // Fetch order details using `list` method
+    const orders = await orderModuleService.list({ id: data.id }, { relations: ["customer"] })
+
+    if (!orders.length) {
+        console.error(`Order with id ${data.id} not found.`)
+        return
+    }
+
+    const order = orders[0] // Since list returns an array, get the first item
 
     // Send notification
     await notificationModuleService.createNotifications({
-        to: order.email,
+        to: order.customer?.email || "", // Ensure email exists
         channel: "email",
         template: "order-placed",
         data: {
