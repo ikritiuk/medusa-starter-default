@@ -1,6 +1,8 @@
 import { Modules } from "@medusajs/framework/utils"
 import { SubscriberArgs, SubscriberConfig } from "@medusajs/framework"
 import { INotificationModuleService, IOrderModuleService } from "@medusajs/framework/types"
+import { EmailTemplates } from "../modules/email-notifications/templates";
+
 
 export default async function orderPlacedHandler({
                                                      event: { data },
@@ -18,7 +20,7 @@ export default async function orderPlacedHandler({
 
     // Send notification
     await notificationModuleService.createNotifications({
-        to: order.customer?.email || "", // Ensure email exists
+        to: order.email,
         channel: "email",
         template: "order-placed",
         data: {
