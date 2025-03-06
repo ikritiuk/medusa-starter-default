@@ -28,11 +28,10 @@ class SMTPNotificationProviderService extends AbstractNotificationProviderServic
     }
 
     async send(data) {
-        const { to, channel, template, subject, data: emailData } = data
+        const { to, channel, template, data: emailData } = data
 
         try {
             console.log(`📤 [Sending Email] Preparing to send email to: ${to}`)
-            console.log(`📝 [Email Subject] ${subject || "Order Confirmation"}`)
 
             // Fix: Ensure email template is correctly extracted
             const templateName = emailData?.template || "unknown-template"
@@ -43,7 +42,7 @@ class SMTPNotificationProviderService extends AbstractNotificationProviderServic
             const info = await this.transporter_.sendMail({
                 from: this.options_.auth.user,
                 to,
-                subject: subject || "Order Confirmation",
+                subject: "Подтврерждение заказа",
                 html: emailHtml,
             })
 
