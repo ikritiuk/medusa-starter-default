@@ -1,6 +1,6 @@
 import { Modules } from "@medusajs/framework/utils"
 import { SubscriberArgs, SubscriberConfig } from "@medusajs/framework"
-import { INotificationModuleService } from "@medusajs/framework/types"
+import { INotificationModuleService, IOrderModuleService } from "@medusajs/framework/types"
 
 export default async function orderPlacedHandler({
                                                      event: { data },
@@ -9,11 +9,13 @@ export default async function orderPlacedHandler({
     const notificationModuleService: INotificationModuleService =
         container.resolve(Modules.NOTIFICATION)
 
-    // Resolve order service dynamically
-    const orderService = (await container.resolve("orderService")) as any;
+    // Retrieve order module service properly
+    const orderModuleService: IOrderModuleService = container.resolve(Modules.ORDER)
 
-    const order = await orderService.retrieve(data.id)
+    // Fetch order details
+    const order = await orderModuleService.retrieve(data.id)
 
+    // Send notification
     await notificationModuleService.createNotifications({
         to: order.email,
         channel: "email",
