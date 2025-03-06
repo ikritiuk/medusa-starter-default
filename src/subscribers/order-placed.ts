@@ -1,7 +1,7 @@
 import { Modules } from "@medusajs/framework/utils"
 import { SubscriberArgs, SubscriberConfig } from "@medusajs/framework"
 import { INotificationModuleService, IOrderModuleService } from "@medusajs/framework/types"
-import { EmailTemplates, EmailTemplateType } from "../modules/smtp/templates"
+import { EmailTemplates } from "../modules/smtp/templates"; // Make sure this exists
 
 export default async function orderPlacedHandler({
                                                      event: { data },
@@ -10,28 +10,25 @@ export default async function orderPlacedHandler({
     const notificationModuleService: INotificationModuleService =
         container.resolve(Modules.NOTIFICATION)
 
+    // Retrieve order module service properly
     const orderModuleService: IOrderModuleService = container.resolve(Modules.ORDER)
 
     const order = await orderModuleService.retrieveOrder(data.id, {
         relations: ["items", "summary", "shipping_address"],
-    })
+    });
 
     if (!order || !order.email) {
         console.error(`Order or email not found for order ID: ${data.id}`)
         return
     }
 
-    // Send email notification using the default provider
+    // Send notification
     await notificationModuleService.createNotifications({
-        to: order.email,
-        subject: "Your Order Has Been Placed!", // Ensure subject is included
-        channel: "email", // Medusa will route it to the configured email provider
-        template: EmailTemplates.ORDER_PLACED as EmailTemplateType, // Type safety
+        to: order.email, // Now guaranteed to be a string
+        channel: "email",
+        template: EmailTemplates.ORDER_PLACED,
         data: {
-            order: {
-                id: order.id,
-                total: order.total,
-            },
+            order: order,
         },
     })
 }
