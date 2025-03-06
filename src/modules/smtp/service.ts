@@ -5,6 +5,7 @@ import nodemailer from "nodemailer"
 type SMTPOptions = {
     host: string
     port: number
+    secure: boolean
     auth: {
         user: string
         pass: string
@@ -21,8 +22,15 @@ class SMTPNotificationProviderService extends AbstractNotificationProviderServic
         super()
         this.logger_ = logger
         this.options_ = options
-        this.transporter_ = nodemailer.createTransport(options)
-
+        this.transporter_ = nodemailer.createTransport({
+            host: this.options_.host,
+            port: this.options_.port,
+            secure: this.options_.secure, // Port 465 requires `secure: true`
+            auth: {
+                user: this.options_.auth.user,
+                pass: this.options_.auth.pass,
+            },
+        })
         console.log(`📧 [SMTP Initialized] SMTP Notification Provider Loaded.`)
         console.log(`🔧 [SMTP Settings] Host: ${this.options_.host}, Port: ${this.options_.port}`)
     }
