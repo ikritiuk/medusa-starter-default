@@ -12,15 +12,9 @@ export default async function orderPlacedHandler({
     // Retrieve order module service properly
     const orderModuleService: IOrderModuleService = container.resolve(Modules.ORDER)
 
-    // Fetch order details using `list` method
-    const orders = await orderModuleService.list({ id: data.id }, { relations: ["customer"] })
-
-    if (!orders.length) {
-        console.error(`Order with id ${data.id} not found.`)
-        return
-    }
-
-    const order = orders[0] // Since list returns an array, get the first item
+    const order = await orderModuleService.retrieveOrder(data.id, {
+        relations: ["items", "summary", "shipping_address"],
+    });
 
     // Send notification
     await notificationModuleService.createNotifications({
