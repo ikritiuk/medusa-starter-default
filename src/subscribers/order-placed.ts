@@ -37,6 +37,7 @@ export default async function orderPlacedHandler({
             to: order.email, // Now guaranteed to be a string
             channel: "email",
             template: EmailTemplates.ORDER_PLACED as EmailTemplateType,
+            subject: "Подтверждение заказа",
             data: {
                 order: order,
             },

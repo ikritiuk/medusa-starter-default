@@ -28,18 +28,23 @@ class SMTPNotificationProviderService extends AbstractNotificationProviderServic
     }
 
     async send(data) {
-        const { to, subject, data: emailData } = data
+        const { to, channel, template, subject, data: emailData } = data
 
         try {
             console.log(`📤 [Sending Email] Preparing to send email to: ${to}`)
             console.log(`📝 [Email Subject] ${subject || "Order Confirmation"}`)
-            console.log(`📨 [Email Template] ${emailData.template}`)
+
+            // Fix: Ensure email template is correctly extracted
+            const templateName = emailData?.template || "unknown-template"
+            console.log(`📨 [Email Template] ${templateName}`)
+
+            const emailHtml = this.getTemplate(emailData, template)
 
             const info = await this.transporter_.sendMail({
                 from: this.options_.auth.user,
                 to,
                 subject: subject || "Order Confirmation",
-                html: this.getTemplate(emailData),
+                html: emailHtml,
             })
 
             console.log(`✅ [Email Sent] Message ID: ${info.messageId}, Sent to: ${to}`)
@@ -51,10 +56,11 @@ class SMTPNotificationProviderService extends AbstractNotificationProviderServic
         }
     }
 
-    getTemplate(data) {
-        console.log(`🖼️ [Generating Template] Template Requested: ${data.template}`)
 
-        switch (data.template) {
+    getTemplate(data, template) {
+        console.log(`🖼️ [Generating Template] Template Requested: ${template}`)
+
+        switch (template) {
             case "order-placed":
                 console.log(`📩 [Template Used] Order Placed Template`)
                 return `
@@ -65,7 +71,7 @@ class SMTPNotificationProviderService extends AbstractNotificationProviderServic
                     <p>We will notify you once your order is shipped.</p>
                 `
             default:
-                console.warn(`⚠️ [Warning] No template found for ${data.template}`)
+                console.warn(`⚠️ [Warning] No template found for ${template}`)
                 return `<p>No template found for ${data.template}</p>`
         }
     }
