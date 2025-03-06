@@ -12,7 +12,7 @@ type SMTPOptions = {
 }
 
 class SMTPNotificationProviderService extends AbstractNotificationProviderService {
-    static identifier = "notification-smtp" // Ensure this matches medusa-config.ts
+    static identifier = "smtp" // Ensure this matches medusa-config.ts
     protected logger_: Logger
     protected options_: SMTPOptions
     protected transporter_: nodemailer.Transporter

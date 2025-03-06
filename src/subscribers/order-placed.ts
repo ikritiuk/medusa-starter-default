@@ -21,12 +21,12 @@ export default async function orderPlacedHandler({
         return
     }
 
-    // Send email notification using the SMTP provider
+    // Send email notification using the default provider
     await notificationModuleService.createNotifications({
-        provider_id: "notification-smtp", // Ensure this matches SMTPNotificationProviderService.identifier
         to: order.email,
-        subject: "Your Order Has Been Placed!", // Email subject
-        template: EmailTemplates.ORDER_PLACED as EmailTemplateType, // Ensure type safety
+        subject: "Your Order Has Been Placed!", // Ensure subject is included
+        channel: "email", // Medusa will route it to the configured email provider
+        template: EmailTemplates.ORDER_PLACED as EmailTemplateType, // Type safety
         data: {
             order: {
                 id: order.id,

@@ -31,7 +31,7 @@ module.exports = defineConfig({
                 providers: [
                     {
                         resolve: "./src/modules/smtp",
-                        id: "notification-smtp",
+                        id: "smtp",
                         options: {
                             channels: ["email"],
                             host: process.env.SMTP_HOST,
