@@ -71,11 +71,11 @@ class SMTPNotificationProviderService extends AbstractNotificationProviderServic
             case "order-placed":
                 console.log(`📩 [Template Used] Order Placed Template`)
                 return `
-                   <h1>Заказ оформлен</h1>
-<p>Спасибо за ваш заказ!</p>
-<p><strong>Номер заказа:</strong> ${data.order.id}</p>
-<p><strong>Сумма:</strong> $${data.order.total}</p>
-<p>Мы уведомим вас, как только ваш заказ будет отправлен.</p>
+                    <h1>Order Placed</h1>
+                    <p>Thank you for your order!</p>
+                    <p><strong>Order ID:</strong> ${data.order.id}</p>
+                    <p><strong>Total:</strong> $${data.order.total}</p>
+                    <p>We will notify you once your order is shipped.</p>
                 `
             default:
                 console.warn(`⚠️ [Warning] No template found for ${template}`)
