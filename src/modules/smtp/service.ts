@@ -85,3 +85,4 @@ class SMTPNotificationProviderService extends AbstractNotificationProviderServic
 }
 
 export default SMTPNotificationProviderService
+
