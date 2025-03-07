@@ -1,7 +1,9 @@
-import { MedusaContainer, NotificationService } from "@medusajs/medusa"
+import { MedusaContainer, Modules } from "@medusajs/framework/utils"
+import { INotificationModuleService } from "@medusajs/framework/types"
 
 export default async (container: MedusaContainer): Promise<void> => {
-    const notificationService = container.resolve<NotificationService>("notificationService")
+    const notificationModuleService: INotificationModuleService =
+        container.resolve(Modules.NOTIFICATION) // Correct way to resolve notification service in Medusa v2
 
-    notificationService.subscribe("order.placed", "email") // Ensure this matches the provider identifier
+    notificationModuleService.subscribe("order.placed", "email") // Ensure "email" matches your provider identifier
 }
